@@ -1,0 +1,8 @@
+bin/**
+build/**
+embuild/**
+
+!**/.gitkeep
+!bin/index.html
+
+.vscode/**
