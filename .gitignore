@@ -1,6 +1,7 @@
 bin/**
 build/**
 embuild/**
+winbuild/**
 
 !**/.gitkeep
 !bin/index.html

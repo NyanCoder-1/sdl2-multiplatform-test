@@ -4,6 +4,9 @@ set(PROJECT "sdl2-multiplatform-test")
 set(TARGET "game")
 project(${PROJECT})
 
+# Set C++ standard\
+set(CMAKE_CXX_STANDARD 20)
+
 set(PROJECT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 cmake_path(NORMAL_PATH PROJECT_DIR)
 set(SOURCE_DIR "${PROJECT_DIR}/src")
@@ -70,8 +73,23 @@ else ()
 	find_package(SDL2_ttf REQUIRED)
 	target_link_libraries(${TARGET} SDL2 SDL2_ttf)
 
+	if (WIN32)
+
+		# Set Windows entry point to main(), instead of WinMain()
+		set_target_properties(${TARGET} PROPERTIES
+			LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE /ENTRY:mainCRTStartup"
+			LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+		set_target_properties(${TARGET} PROPERTIES VS_GLOBAL_VcpkgEnabled true)
+
+	endif ()
+
 endif ()
 
 include_directories(${INCLUDE_DIR})
 #set_target_properties(${TARGET} PROPERTIES CXX_STANDARD 20 DEBUG_POSTFIX d)
 add_definitions(-DTARGET="${TARGET}")
+
+
+# Hide ZERO_CHECK and ALL_BUILD targets
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER meta)

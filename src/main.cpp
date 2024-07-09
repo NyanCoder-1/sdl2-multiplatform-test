@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #else // __EMSCRIPTEN__
+#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #endif // __EMSCRIPTEN__
@@ -99,9 +100,9 @@ int main(int argc, char *argv[])
         std::cerr << "TTF_Init: " << TTF_GetError() << std::endl;
         exit(EXIT_FAILURE);
     }
-    fontSans = TTF_OpenFont((std::filesystem::current_path()/".."/"assets"/"roboto-regular.ttf").c_str(), 24);
+    fontSans = TTF_OpenFont((std::filesystem::current_path()/".."/"assets"/"roboto-regular.ttf").string().c_str(), 24);
     if (!fontSans) {
-        std::cerr << "Couldn't open ttf font file: " << (std::filesystem::current_path()/".."/"assets"/"roboto-regular.ttf").c_str() << " with error \"" << TTF_GetError() << "\"" << std::endl;
+        std::cerr << "Couldn't open ttf font file: " << (std::filesystem::current_path()/".."/"assets"/"roboto-regular.ttf").string().c_str() << " with error \"" << TTF_GetError() << "\"" << std::endl;
         exit(EXIT_FAILURE);
     }
     TTF_SetFontHinting(fontSans, TTF_HINTING_LIGHT_SUBPIXEL);
